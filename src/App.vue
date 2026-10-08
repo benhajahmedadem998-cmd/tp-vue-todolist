@@ -1,34 +1,29 @@
 <script setup>
 import { ref, computed } from 'vue'
 
-// 1. Champ de saisie pour le nom d'une tâche
 const newTodoText = ref('')
 
-// Tableau réactif contenant la liste des tâches
 const todos = ref([])
 
-// 2 & 5. Propriété calculée (computed) pour le nombre de tâches non terminées
 const remainingCount = computed(() => {
   return todos.value.filter(todo => !todo.completed).length
 })
 
-// 2. Fonction d'ajout d'une tâche
 const addTodo = () => {
   const trimmedText = newTodoText.value.trim()
-  // Empêcher l'ajout si le champ est vide ou composé uniquement d'espaces
   if (trimmedText === '') return
 
   todos.value.push({
-    id: Date.now(), // Identifiant unique
+    id: Date.now(), 
     text: trimmedText,
-    completed: false // État initial non terminée
+    completed: false 
   })
 
-  // Réinitialiser le champ de saisie
+  
   newTodoText.value = ''
 }
 
-// 4. Fonction de suppression d'une tâche
+
 const removeTodo = (id) => {
   todos.value = todos.value.filter(todo => todo.id !== id)
 }
@@ -38,7 +33,7 @@ const removeTodo = (id) => {
   <div class="app-container">
     <h1>Gestion d'une liste de tâches</h1>
 
-    <!-- 1. Interface : Champ de saisie et bouton Ajouter -->
+    
     <div class="input-container">
       <input 
         v-model="newTodoText" 
@@ -49,26 +44,24 @@ const removeTodo = (id) => {
       <button @click="addTodo">Ajouter</button>
     </div>
 
-    <!-- 5. Affichage du compteur / Message si la liste est vide -->
+    
     <div class="counter-section">
       <p v-if="todos.length === 0">Aucune tâche pour le moment.</p>
       <p v-else>Tâches non terminées : {{ remainingCount }}</p>
     </div>
 
-    <!-- 1 & 3. Liste d'affichage des tâches -->
+    
     <ul class="todo-list">
       <li 
         v-for="todo in todos" 
         :key="todo.id" 
         :class="{ completed: todo.completed }"
       >
-        <!-- Case à cocher pour modifier l'état de la tâche -->
         <input type="checkbox" v-model="todo.completed" />
         
-        <!-- Libellé de la tâche -->
+     
         <span class="todo-text">{{ todo.text }}</span>
 
-        <!-- 4. Bouton Supprimer -->
         <button @click="removeTodo(todo.id)" class="delete-btn">Supprimer</button>
       </li>
     </ul>
@@ -131,7 +124,6 @@ button {
   border-bottom: 1px solid #eee;
 }
 
-/* 3. Tâche terminée visuellement identifiable (texte barré) */
 .completed .todo-text {
   text-decoration: line-through;
   color: #888;
